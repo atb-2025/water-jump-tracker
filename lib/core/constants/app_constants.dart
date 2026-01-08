@@ -3,14 +3,14 @@ class AppConstants {
   // Fysikaliska konstanter
   static const double gravity = 9.82; // m/s² (gravitationskonstant)
 
-  // Sensortröskvärden
-  static const double fallDetectionThreshold = 30.0; // grader/sekund
-  static const double waterImpactThreshold = 15.0; // m/s² (acceleration)
+  // Sensortröskvärden (sänkta för testning - för riktiga vattenhopp, höj till 30.0 och 15.0)
+  static const double fallDetectionThreshold = 5.0; // grader/sekund (snabb rotation)
+  static const double waterImpactThreshold = 20.0; // m/s² (stark acceleration)
 
   // Tidsgränser
   static const int sensorSamplingRate = 100; // Hz
   static const int maxJumpDuration = 10000; // millisekunder
-  static const int minJumpDuration = 500; // millisekunder
+  static const int minJumpDuration = 200; // millisekunder (sänkt från 500 för testning)
 
   // Poängberäkning vikter
   static const double heightWeight = 0.35;

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +26,18 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Vi behöver tillgång till din pulsdata för att analysera din kroppsreaktion under hoppet.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Vi vill spara din hoppdata i Hälsa-appen.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Vi behöver din plats för att spåra var hoppet skedde och hämta väderdata.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Vi behöver din plats för att spåra var hoppet skedde och hämta väderdata.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Vi använder rörelsesensorer för att mäta ditt hopp och beräkna hopphöjd och rotation.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,21 +55,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	
-	<!-- Permissions for Water Jump Tracker -->
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Vi behöver din plats för att spåra var hoppet skedde och hämta väderdata.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Vi behöver din plats för att spåra var hoppet skedde och hämta väderdata.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Vi använder rörelsesensorer för att mäta ditt hopp och beräkna hopphöjd och rotation.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Vi behöver tillgång till din pulsdata för att analysera din kroppsreaktion under hoppet.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Vi vill spara din hoppdata i Hälsa-appen.</string>
 </dict>
 </plist>

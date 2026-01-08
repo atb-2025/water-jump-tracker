@@ -113,16 +113,55 @@ class HomeScreen extends ConsumerWidget {
             foregroundColor: Colors.white,
           ),
         ),
-      JumpTrackingReady() => ElevatedButton.icon(
-          onPressed: null, // Väntar på hopp
-          icon: const Icon(Icons.check_circle, size: 32),
-          label: const Text(
-            'REDO - GÖR DITT HOPP!',
-            style: TextStyle(fontSize: 20),
-          ),
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 80),
-          ),
+      JumpTrackingReady() => Column(
+          children: [
+            ElevatedButton.icon(
+              onPressed: null, // Väntar på hopp
+              icon: const Icon(Icons.check_circle, size: 32),
+              label: const Text(
+                'REDO - GÖR DITT HOPP!',
+                style: TextStyle(fontSize: 20),
+              ),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 80),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Card(
+              color: Colors.green.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      '🎯 Sensorer aktiva - För att testa:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text('1. Rotera telefonen snabbt (fallstart)'),
+                    const Text('2. Vänta 1-2 sekunder'),
+                    const Text('3. Skaka telefonen hårt (vattenimpakt)'),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                ref.read(jumpTrackingProvider.notifier).simulateJump();
+              },
+              icon: const Icon(Icons.science, size: 24),
+              label: const Text(
+                'SIMULERA HOPP (DEMO)',
+                style: TextStyle(fontSize: 16),
+              ),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 60),
+                backgroundColor: Colors.purple,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
         ),
       JumpTrackingError(:final message) => Column(
           children: [

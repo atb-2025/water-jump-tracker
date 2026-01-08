@@ -16,10 +16,25 @@ class HealthDataSource {
     ];
 
     try {
-      final granted =
-          await _health.requestAuthorization(types, permissions: permissions);
+      print('🔍 Kollar om Health är tillgängligt...');
+      
+      // Kolla om appen har tillgång till Health
+      bool? hasPermissions = await _health.hasPermissions(types, permissions: permissions);
+      print('📊 Nuvarande behörigheter: $hasPermissions');
+      
+      if (hasPermissions == true) {
+        print('✅ Health-behörigheter redan godkända');
+        return true;
+      }
+      
+      // Begär behörigheter
+      print('📝 Begär Health-behörigheter från användaren...');
+      final granted = await _health.requestAuthorization(types, permissions: permissions);
+      print('📊 Resultat av behörighetsförfrågan: $granted');
+      
       return granted;
     } catch (e) {
+      print('❌ Fel vid Health-initialisering: $e');
       return false;
     }
   }
@@ -27,17 +42,25 @@ class HealthDataSource {
   /// Hämta pulsdata för ett tidsintervall
   Future<PulseData> getPulseData(DateTime startTime, DateTime endTime) async {
     try {
+      print('❤️‍🔥 Hämtar senaste pulsen från Health...');
+      
       final types = [HealthDataType.HEART_RATE];
 
-      // Hämta pulsmätningar under tidsintervallet
+      // Hämta senaste pulsmätningen (sök bakåt 5 minuter)
+      final now = DateTime.now();
+      final fiveMinutesAgo = now.subtract(const Duration(minutes: 5));
+      
       final healthData = await _health.getHealthDataFromTypes(
         types: types,
-        startTime: startTime,
-        endTime: endTime,
+        startTime: fiveMinutesAgo,
+        endTime: now,
       );
 
+      print('📊 Antal pulsmätningar hämtade: ${healthData.length}');
+
       if (healthData.isEmpty) {
-        // Om ingen data finns, använd standardvärden
+        print('⚠️ Ingen pulsdata hittades i Health-appen');
+        print('💡 Kontrollera att din Apple Watch synkroniserar data');
         return const PulseData(
           startPulse: 70,
           maxPulse: 70,
@@ -45,25 +68,27 @@ class HealthDataSource {
         );
       }
 
-      // Sortera efter tidsstämpel
+      // Sortera och ta den senaste mätningen
       final sortedData = healthData.toList()
-        ..sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+        ..sort((a, b) => b.dateFrom.compareTo(a.dateFrom));
 
-      // Extrahera pulsvärden
-      final pulseValues =
-          sortedData.map((d) => (d.value as num).toInt()).toList();
+      // Ta den senaste pulsmätningen
+      final latestData = sortedData.first;
+      final numericValue = latestData.value as NumericHealthValue;
+      final latestPulse = numericValue.numericValue.toInt();
+      
+      print('💓 Senaste pulsen: $latestPulse bpm (mätt ${latestData.dateFrom})');
+      print('✅ Använder denna puls för alla värden');
 
-      final startPulse = pulseValues.first;
-      final maxPulse = pulseValues.reduce((a, b) => a > b ? a : b);
-      final endPulse = pulseValues.last;
-
+      // Använd samma puls för alla värden
       return PulseData(
-        startPulse: startPulse,
-        maxPulse: maxPulse,
-        endPulse: endPulse,
+        startPulse: latestPulse,
+        maxPulse: latestPulse,
+        endPulse: latestPulse,
       );
-    } catch (e) {
-      // Vid fel, returnera standardvärden
+    } catch (e, stackTrace) {
+      print('❌ Fel vid hämtning av pulsdata: $e');
+      print('Stack trace: $stackTrace');
       return const PulseData(
         startPulse: 70,
         maxPulse: 70,
